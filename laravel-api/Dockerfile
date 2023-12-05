@@ -1,5 +1,5 @@
-# PHP 8.1.10 imajını kullanalım
-FROM php:8.1.10-fpm
+# PHP 8.2.0 imajını kullanalım
+FROM php:8.2.0-fpm
 
 # Gerekli bağımlılıkları yükleyin
 RUN apt-get update && apt-get install -y \
