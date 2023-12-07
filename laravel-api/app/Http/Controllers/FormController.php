@@ -8,8 +8,12 @@ use App\Models\Form;
 class FormController extends Controller
 {
     public function index() {
-        $forms = Form::all();
-        return response()->json($forms);
+        try {
+            $forms = Form::all();
+            return response()->json($forms);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Öncelikle giriş yapmalısınız!'], 401);
+        }
     }
     
     public function store(Request $request) {
@@ -22,12 +26,12 @@ class FormController extends Controller
         $newForm = Form::create($data);
     
         if ($newForm) {
-            return response()->json(['message' => 'Form başarıyla oluşturuldu'], 200);
-        }
-        else{
+            return response()->json(['message' => 'Ürün başarıyla eklendi.'], 200);
+        } else {
             return response()->json(['error' => 'Girilen bilgiler eksik veya hatalı'], 404);
         }
     }
+    
 
     public function edit(Form $form) {
         return response()->json($form);
@@ -39,24 +43,24 @@ class FormController extends Controller
             'surname' => 'required',
             'email' => 'required',
         ]);
-      $update = $form->update($data);
-
+    
+        $update = $form->update($data);
+    
         if ($update) {
-            return response()->json(['message' => 'Form başarıyla güncellendi'], 200);
-        }
-        else{
+            return response()->json(['message' => 'Ürün başarıyla güncellendi'], 200);
+        } else {
             return response()->json(['error' => 'Girilen bilgiler eksik veya hatalı'], 404);
         }
     }
+    
 
     public function destroy(Form $form) {
         $delete = $form->delete();
-
+    
         if ($delete) {
-            return response()->json(['message' => 'Kullanıcı başarıyla silindi.'], 200);
-        }
-        else{
-            return response()->json(['message' => 'Kullanıcı bulunamadı.'], 404);
+            return response()->json(['message' => 'Ürün başarıyla silindi.'], 200);
+        } else {
+            return response()->json(['error' => 'Ürün bulunamadı.'], 404);
         }
     }
 }
